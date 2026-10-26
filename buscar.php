@@ -17,50 +17,55 @@ session_start();
 
     <!-- SECCIÓN 1: BUSCADOR GLOBAL -->
     <div id="vista-busqueda-global">
-        <header class="top-search-container">
-            <div class="search-bar-rounded">
+        <main class="main-content">
+            <div class="grid-container">
                 
-                <!-- Buscador de texto -->
-                <div class="search-input-wrapper">
-                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                    <input type="text" id="searchInput" class="search-input" placeholder="Buscar materia o archivo...">
+                <!-- Caja Principal de Búsqueda -->
+                <div class="search-bar-rounded" style="grid-column: span 4;">
+                    
+                    <!-- Buscador de texto -->
+                    <div class="search-input-wrapper">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="searchInput" class="search-input" placeholder="Buscar materia o archivo...">
+                    </div>
+
+                    <!-- Filtros (Año, Cuatrimestre, Categoría) -->
+                    <div class="filters-grid">
+                        <div class="custom-select-wrapper select-white-blue">
+                            <select class="custom-select" id="yearSelectorGlobal">
+                                <option value="todos" selected>Todos los años</option>
+                                <option value="Año 1">1er Año</option>
+                                <option value="Año 2">2do Año</option>
+                                <option value="Año 3">3er Año</option>
+                                <option value="Año 4">4to Año</option>
+                                <option value="Año 5">5to Año</option>
+                            </select>
+                        </div>
+
+                        <div class="custom-select-wrapper select-white-blue">
+                            <select class="custom-select" id="termSelectorGlobal">
+                                <option value="todos" selected>Todo el año</option>
+                                <option value="1er cuatrimestre">1er cuatrimestre</option>
+                                <option value="2do cuatrimestre">2do cuatrimestre</option>
+                            </select>
+                        </div>
+
+                        <!-- El tercer filtro abarca las dos columnas -->
+                        <div class="custom-select-wrapper select-white-blue full-width">
+                            <select class="custom-select" id="categorySelector">
+                                <option value="todas" selected>Todas las categorías</option>
+                                <option value="taller">Taller</option>
+                                <option value="tecnología">Tecnología</option>
+                                <option value="sistemas">Sistemas</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Filtros (Año, Cuatrimestre, Categoría) -->
-                <div class="filters-grid">
-                    <div class="custom-select-wrapper">
-                        <select class="custom-select" id="yearSelectorGlobal">
-                            <option value="todos">Todos los años</option>
-                            <option value="Año 1">1er Año</option>
-                            <option value="Año 2">2do Año</option>
-                            <option value="Año 3">3er Año</option>
-                            <option value="Año 4" selected>4to Año</option>
-                            <option value="Año 5">5to Año</option>
-                        </select>
-                    </div>
+                <!-- Grilla de Resultados -->
+                <div class="grid-container" id="materiasGridGlobal" style="grid-column: span 4; padding: 0;"></div>
 
-                    <div class="custom-select-wrapper">
-                        <select class="custom-select" id="termSelectorGlobal">
-                            <option value="todos">Todo el año</option>
-                            <option value="1er cuatrimestre">1er cuatrimestre</option>
-                            <option value="2do cuatrimestre" selected>2do cuatrimestre</option>
-                        </select>
-                    </div>
-
-                    <div class="custom-select-wrapper full-width">
-                        <select class="custom-select" id="categorySelector">
-                            <option value="todas">Todas las categorías</option>
-                            <option value="taller">Taller</option>
-                            <option value="tecnología">Tecnología</option>
-                            <option value="sistemas">Sistemas</option>
-                        </select>
-                    </div>
-                </div>
             </div>
-        </header>
-
-        <main class="main-content search-main">
-            <div class="grid-container" id="materiasGridGlobal"></div>
         </main>
     </div>
 

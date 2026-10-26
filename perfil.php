@@ -15,69 +15,71 @@ session_start();
 </head>
 <body class="inner-page">
 
-    <!-- SECCIÓN 1: PERFIL Y MATERIAS (Visible por defecto) -->
+    <!-- SECCIÓN 1: PERFIL Y MATERIAS -->
     <div id="vista-perfil-principal">
-        <main class="main-content" style="padding-bottom: 20px;">
-            
-            <!-- Encabezado del Perfil -->
-            <header class="profile-header">
-                <div class="profile-banner" id="userBanner">
-                    <label for="bannerImageInput" class="edit-btn" title="Cambiar portada">
-                        <i class="fa-solid fa-camera"></i>
-                    </label>
-                    <input type="file" id="bannerImageInput" accept="image/*" style="display: none;">
-                </div>
+        <main class="main-content" style="padding-bottom: 40px;">
+            <div class="grid-container">
                 
-                <div class="profile-info-wrapper">
-                    <div class="profile-avatar-container">
-                        <img class="profile-pic-img" src="https://via.placeholder.com/100" alt="Foto">
-                        <label for="profileImageInput" class="edit-avatar-btn">
+                <!-- Encabezado del Perfil -->
+                <header class="profile-header" style="grid-column: span 4;">
+                    <div class="profile-banner" id="userBanner">
+                        <label for="bannerImageInput" class="edit-btn" title="Cambiar portada">
                             <i class="fa-solid fa-camera"></i>
                         </label>
-                        <input type="file" id="profileImageInput" accept="image/*" style="display: none;">
+                        <input type="file" id="bannerImageInput" accept="image/*" style="display: none;">
                     </div>
                     
-                    <div class="profile-text">
-                        <h2>Lucía Fernández</h2>
-                        <p>Legajo: 12345/6<br>Diseño Multimedial</p>
-                    </div>
+                    <div class="profile-info-grid">
+                        <div class="profile-avatar-col">
+                            <img class="profile-pic-img" src="https://via.placeholder.com/100" alt="Foto">
+                        </div>
+                        
+                        <div class="profile-text-col">
+                            <h2>Lucía Fernández</h2>
+                            <p>Legajo: 12345/6<br>Diseño Multimedial</p>
+                        </div>
 
-                    <a href="login.php" class="logout-btn" title="Cerrar sesión">
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                    </a>
-                </div>
-            </header>
+                        <div class="logout-col">
+                            <button id="logoutTrigger" class="logout-action-btn">Cerrar sesión</button>
+                        </div>
+                    </div>
+                </header>
 
-            <!-- Filtros de Materias integrados al perfil -->
-            <div class="search-bar-rounded" style="margin-top: 24px; margin-bottom: 24px;">
-                <h3 style="color: white; font-size: 0.9rem; margin-bottom: 8px;">Mis Materias</h3>
-                <div class="filters-grid">
-                    <div class="custom-select-wrapper">
-                        <select class="custom-select" id="yearSelector">
-                            <option value="todos">Todos los años</option>
-                            <option value="Año 1">1er Año</option>
-                            <option value="Año 2">2do Año</option>
-                            <option value="Año 3">3er Año</option>
-                            <option value="Año 4" selected>4to Año</option>
-                            <option value="Año 5">5to Año</option>
-                        </select>
-                    </div>
-                    <div class="custom-select-wrapper">
-                        <select class="custom-select" id="termSelector">
-                            <option value="todos">Todo el año</option>
-                            <option value="1er cuatrimestre">1er cuatrimestre</option>
-                            <option value="2do cuatrimestre" selected>2do cuatrimestre</option>
-                        </select>
+                <!-- Botón Añadir Trabajo -->
+                <a href="crear.php" class="btn-add-job" style="grid-column: span 4;">Añadir trabajo</a>
+
+                <!-- Filtros de Materias -->
+                <div class="search-bar-rounded" style="grid-column: span 4;">
+                    <h3 style="color: white; font-size: 0.9rem; margin-bottom: 8px;">Mis Materias</h3>
+                    <div class="filters-grid">
+                        <div class="custom-select-wrapper select-white-blue">
+                            <select class="custom-select" id="yearSelector">
+                                <option value="todos" selected>Todos los años</option>
+                                <option value="Año 1">1er Año</option>
+                                <option value="Año 2">2do Año</option>
+                                <option value="Año 3">3er Año</option>
+                                <option value="Año 4">4to Año</option>
+                                <option value="Año 5">5to Año</option>
+                            </select>
+                        </div>
+                        <div class="custom-select-wrapper select-white-blue">
+                            <select class="custom-select" id="termSelector">
+                                <option value="todos" selected>Todo el año</option>
+                                <option value="1er cuatrimestre">1er cuatrimestre</option>
+                                <option value="2do cuatrimestre">2do cuatrimestre</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Grilla de Materias -->
+                <div class="grid-container" id="materiasGrid" style="grid-column: span 4; padding: 0;"></div>
+                
             </div>
-
-            <!-- Grilla de Materias -->
-            <div class="grid-container" id="materiasGrid"></div>
         </main>
     </div>
 
-    <!-- SECCIÓN 2: TRABAJOS PRÁCTICOS (Oculta hasta hacer clic en una materia) -->
+    <!-- SECCIÓN 2: TRABAJOS PRÁCTICOS -->
     <div id="vista-trabajos" style="display: none;">
         <main class="main-content">
             <button class="back-btn" onclick="cerrarMateria()"><i class="fa-solid fa-arrow-left"></i> Volver a Mis Materias</button>
@@ -99,8 +101,19 @@ session_start();
         </main>
     </div>
 
+    <!-- Modal Pop-up para cerrar sesión -->
+    <div id="logoutModal" class="modal-overlay" style="display: none;">
+        <div class="modal-box">
+            <p>¿Estás seguro que deseas cerrar la sesión?</p>
+            <div class="modal-actions">
+                <button id="cancelLogout" class="modal-btn cancel">Cancelar</button>
+                <a href="login.php" class="modal-btn confirm">Confirmar</a>
+            </div>
+        </div>
+    </div>
+
     <!-- Barra de navegación inferior -->
-  <nav class="bottom-nav" id="bottomNav">
+    <nav class="bottom-nav" id="bottomNav">
         <a href="index.php" class="nav-item" aria-label="Inicio">
             <i class="fas fa-home"></i>
         </a>

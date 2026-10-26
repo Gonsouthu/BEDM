@@ -213,6 +213,63 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // --- 5. Lógica del Pop-up Modal de Logout ---
+    const logoutTrigger = document.getElementById('logoutTrigger');
+    const logoutModal = document.getElementById('logoutModal');
+    const cancelLogout = document.getElementById('cancelLogout');
+
+    if (logoutTrigger && logoutModal && cancelLogout) {
+        // Mostrar Modal
+        logoutTrigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            logoutModal.style.display = 'flex';
+        });
+
+        // Ocultar Modal al cancelar
+        cancelLogout.addEventListener('click', () => {
+            logoutModal.style.display = 'none';
+        });
+
+        // Ocultar si se clickea fuera del cartel blanco
+        logoutModal.addEventListener('click', (e) => {
+            if(e.target === logoutModal) {
+                logoutModal.style.display = 'none';
+            }
+        });
+    }
+
+    // --- 6. SIMULADOR DE CARGA DE PDF (crear.php) ---
+    const pdfUrlInput = document.getElementById('pdfUrlInput');
+    const pdfViewer = document.getElementById('pdfViewer');
+
+    if (pdfUrlInput && pdfViewer) {
+        pdfUrlInput.addEventListener('input', function() {
+            const url = this.value.trim();
+            
+            // Si hay un texto con más de 5 caracteres, simulamos procesamiento
+            if (url.length > 5) {
+                // Mensaje de carga con tipografía base y color blanco
+                pdfViewer.innerHTML = '<p style="color: white; text-align: center; padding: 20px; font-weight: 700; font-family: \'Roboto Mono\', monospace;">Procesando archivo...</p>';
+                // Forzamos a que se muestre como flex (así hereda tu CSS)
+                pdfViewer.style.display = 'flex'; 
+
+                // Simulamos 1.5 segundos de carga de servidor
+                setTimeout(() => {
+                    pdfViewer.innerHTML = `
+                        <img src="https://via.placeholder.com/800x1130/CBD5E1/333333?text=P%C3%A1gina+1+PDF" alt="Página 1">
+                        <img src="https://via.placeholder.com/800x1130/CBD5E1/333333?text=P%C3%A1gina+2+PDF" alt="Página 2">
+                        <img src="https://via.placeholder.com/800x1130/CBD5E1/333333?text=P%C3%A1gina+3+PDF" alt="Página 3">
+                    `;
+                }, 1500);
+            } else {
+                // Si el usuario borra la URL, vaciamos la caja para que el CSS la oculte
+                pdfViewer.innerHTML = '';
+                pdfViewer.style.display = 'none';
+            }
+        });
+    }
+
 });
 
 // --- FUNCIONES GLOBALES DE CAMBIO DE VISTA DENTRO DE LA MISMA PÁGINA ---
