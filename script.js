@@ -1,134 +1,255 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- 1. Control de la Barra de Navegación Inferior ---
+    // --- 1. Ocultar Barra Inferior en Scroll (Solo Hero de index.php) ---
     const bottomNav = document.getElementById('bottomNav');
     const heroSection = document.getElementById('heroSection');
-    const navItems = document.querySelectorAll('.nav-item');
 
-    // Revelar la barra al hacer scroll
-    window.addEventListener('scroll', () => {
-        const heroHeight = heroSection.offsetHeight;
-        
-        if (window.scrollY > heroHeight * 0.8) {
-            bottomNav.classList.remove('hidden');
-        } else {
-            bottomNav.classList.add('hidden');
-        }
-    });
-
-    // Sombras redondas para el botón activo
-    navItems.forEach(item => {
-        item.addEventListener('click', () => {
-            navItems.forEach(nav => nav.classList.remove('active'));
-            item.classList.add('active');
+    if(heroSection && bottomNav) {
+        window.addEventListener('scroll', () => {
+            const heroHeight = heroSection.offsetHeight;
+            if (window.scrollY > heroHeight * 0.8) {
+                bottomNav.classList.remove('hidden');
+            } else {
+                bottomNav.classList.add('hidden');
+            }
         });
-    });
+        window.dispatchEvent(new Event('scroll'));
+    } else if (bottomNav) {
+        bottomNav.classList.remove('hidden'); // Siempre visible en el resto de páginas
+    }
 
-    // --- 2. Interacción de los Módulos de Entrega (Upload) ---
+    // --- 2. Inyección de Trabajos Random (index.php) ---
+    const communityGrid = document.getElementById('communityGrid');
+    if(communityGrid) {
+        const communityData = [
+            { autor: "Gonzalo Uthurry", tp: "TP1 - Manual de Marca", img: "https://i.postimg.cc/N9cdyw6w/image.jpg" },
+            { autor: "Nahuel Abate", tp: "TP2 - Sistema de Interfaz", img: "https://i.postimg.cc/BtJh44ZM/image.jpg" },
+            { autor: "Sofía Gómez", tp: "TP3 - Prototipo Final", img: "https://i.postimg.cc/BtJh44ZM/image.jpg" },
+            { autor: "Lucas Silva", tp: "TP4 - Diseño Estratégico", img: "https://i.postimg.cc/N9cdyw6w/image.jpg" },
+            { autor: "Clara Vega", tp: "TP5 - Animación 2D", img: "https://i.postimg.cc/N9cdyw6w/image.jpg" },
+            { autor: "Marcos Díaz", tp: "TP6 - Modelado 3D", img: "https://i.postimg.cc/BtJh44ZM/image.jpg" }
+        ];
+
+        communityData.forEach(item => {
+            communityGrid.innerHTML += `
+                <article class="community-card">
+                    <div class="card-preview" style="background-image: url('${item.img}');"></div>
+                    <div class="card-avatar"><i class="fa-solid fa-user"></i></div>
+                    <div class="card-content">
+                        <h4 class="card-title">${item.tp}</h4>
+                        <p class="card-author">${item.autor}</p>
+                    </div>
+                </article>
+            `;
+        });
+    }
+
+    // --- BASE DE DATOS DE MATERIAS COMPLETA CON CATEGORÍAS ---
+    const materiasDB = [
+        // AÑO 1
+        { nombre: "Taller de Diseño I", anio: "Año 1", cuatrimestre: "1er cuatrimestre", categoria: "taller", icon: "fa-pen-nib" },
+        { nombre: "Tecnología I", anio: "Año 1", cuatrimestre: "1er cuatrimestre", categoria: "tecnología", icon: "fa-microchip" },
+        { nombre: "Dibujo", anio: "Año 1", cuatrimestre: "1er cuatrimestre", categoria: "sistemas", icon: "fa-pencil" },
+        { nombre: "Matemática", anio: "Año 1", cuatrimestre: "1er cuatrimestre", categoria: "sistemas", icon: "fa-calculator" },
+        { nombre: "Física", anio: "Año 1", cuatrimestre: "1er cuatrimestre", categoria: "tecnología", icon: "fa-atom" },
+        { nombre: "Taller de Diseño II", anio: "Año 1", cuatrimestre: "2do cuatrimestre", categoria: "taller", icon: "fa-pen-nib" },
+        { nombre: "Tecnología II", anio: "Año 1", cuatrimestre: "2do cuatrimestre", categoria: "tecnología", icon: "fa-microchip" },
+        { nombre: "Morfología", anio: "Año 1", cuatrimestre: "2do cuatrimestre", categoria: "taller", icon: "fa-shapes" },
+        { nombre: "Problemas Socioeconómicos Argentinos", anio: "Año 1", cuatrimestre: "2do cuatrimestre", categoria: "sistemas", icon: "fa-users" },
+        
+        // AÑO 2
+        { nombre: "Taller de Diseño Orientado I", anio: "Año 2", cuatrimestre: "1er cuatrimestre", categoria: "taller", icon: "fa-bullseye" },
+        { nombre: "Tecnología Diseño Orientado I", anio: "Año 2", cuatrimestre: "1er cuatrimestre", categoria: "tecnología", icon: "fa-code" },
+        { nombre: "Sistemas de Representación Orientado I", anio: "Año 2", cuatrimestre: "1er cuatrimestre", categoria: "sistemas", icon: "fa-compass-drafting" },
+        { nombre: "Química", anio: "Año 2", cuatrimestre: "1er cuatrimestre", categoria: "tecnología", icon: "fa-flask" },
+        { nombre: "Panorama Histórico y Social del Diseño", anio: "Año 2", cuatrimestre: "1er cuatrimestre", categoria: "sistemas", icon: "fa-landmark" },
+        { nombre: "Taller de Diseño Orientado II", anio: "Año 2", cuatrimestre: "2do cuatrimestre", categoria: "taller", icon: "fa-bullseye" },
+        { nombre: "Tecnología de Diseño Orientado II", anio: "Año 2", cuatrimestre: "2do cuatrimestre", categoria: "tecnología", icon: "fa-code" },
+        { nombre: "Sistemas de Representación Orientado II", anio: "Año 2", cuatrimestre: "2do cuatrimestre", categoria: "sistemas", icon: "fa-compass-drafting" },
+        { nombre: "Dibujo Asistido por PC", anio: "Año 2", cuatrimestre: "2do cuatrimestre", categoria: "sistemas", icon: "fa-desktop" },
+        { nombre: "Asignatura Electiva", anio: "Año 2", cuatrimestre: "2do cuatrimestre", categoria: "taller", icon: "fa-puzzle-piece" },
+        
+        // AÑO 3
+        { nombre: "Taller de Diseño Multimedial I", anio: "Año 3", cuatrimestre: "1er cuatrimestre", categoria: "taller", icon: "fa-layer-group" },
+        { nombre: "Tecnología de Diseño Multimedial I", anio: "Año 3", cuatrimestre: "1er cuatrimestre", categoria: "tecnología", icon: "fa-code" },
+        { nombre: "Sistemas de Representación para Diseño Multimedial I", anio: "Año 3", cuatrimestre: "1er cuatrimestre", categoria: "sistemas", icon: "fa-compass-drafting" },
+        { nombre: "Semiótica Aplicada al Diseño I", anio: "Año 3", cuatrimestre: "1er cuatrimestre", categoria: "sistemas", icon: "fa-eye" },
+        { nombre: "Asignatura Electiva", anio: "Año 3", cuatrimestre: "1er cuatrimestre", categoria: "taller", icon: "fa-puzzle-piece" },
+        { nombre: "Taller de Diseño Multimedial II", anio: "Año 3", cuatrimestre: "2do cuatrimestre", categoria: "taller", icon: "fa-layer-group" },
+        { nombre: "Tecnología de Diseño Multimedial II", anio: "Año 3", cuatrimestre: "2do cuatrimestre", categoria: "tecnología", icon: "fa-code" },
+        { nombre: "Sistemas de Representación para Diseño Multimedial II", anio: "Año 3", cuatrimestre: "2do cuatrimestre", categoria: "sistemas", icon: "fa-compass-drafting" },
+        { nombre: "Semiótica Aplicada al Diseño II", anio: "Año 3", cuatrimestre: "2do cuatrimestre", categoria: "sistemas", icon: "fa-eye" },
+        { nombre: "Asignatura Electiva", anio: "Año 3", cuatrimestre: "2do cuatrimestre", categoria: "taller", icon: "fa-puzzle-piece" },
+        
+        // AÑO 4
+        { nombre: "Taller de Diseño Multimedial III", anio: "Año 4", cuatrimestre: "1er cuatrimestre", categoria: "taller", icon: "fa-layer-group" },
+        { nombre: "Tecnología de Diseño Multimedial III", anio: "Año 4", cuatrimestre: "1er cuatrimestre", categoria: "tecnología", icon: "fa-code" },
+        { nombre: "Diseño Estratégico, Innovación y Emprendimiento I", anio: "Año 4", cuatrimestre: "1er cuatrimestre", categoria: "sistemas", icon: "fa-lightbulb" },
+        { nombre: "Ciencia, Tecnología y Proyecto de País", anio: "Año 4", cuatrimestre: "1er cuatrimestre", categoria: "sistemas", icon: "fa-rocket" },
+        { nombre: "Asig. Electiva Diseño Multimedial", anio: "Año 4", cuatrimestre: "1er cuatrimestre", categoria: "taller", icon: "fa-puzzle-piece" },
+        { nombre: "Taller de Diseño Multimedial IV", anio: "Año 4", cuatrimestre: "2do cuatrimestre", categoria: "taller", icon: "fa-layer-group" },
+        { nombre: "Tecnología de Diseño Multimedial IV", anio: "Año 4", cuatrimestre: "2do cuatrimestre", categoria: "tecnología", icon: "fa-code" },
+        { nombre: "Diseño Estratégico e Innovación II", anio: "Año 4", cuatrimestre: "2do cuatrimestre", categoria: "sistemas", icon: "fa-lightbulb" },
+        { nombre: "Innovación y Desarrollo Industrial", anio: "Año 4", cuatrimestre: "2do cuatrimestre", categoria: "sistemas", icon: "fa-industry" },
+        { nombre: "Herramientas para Exposiciones", anio: "Año 4", cuatrimestre: "2do cuatrimestre", categoria: "tecnología", icon: "fa-vr-cardboard" },
+        
+        // AÑO 5
+        { nombre: "Taller de Proyecto de Diseño Multimedial", anio: "Año 5", cuatrimestre: "1er cuatrimestre", categoria: "taller", icon: "fa-cubes" },
+        { nombre: "Metodología Científica Aplicada al Diseño", anio: "Año 5", cuatrimestre: "1er cuatrimestre", categoria: "sistemas", icon: "fa-magnifying-glass" },
+        { nombre: "Formulación, Evaluación de Proyectos y Financiamiento", anio: "Año 5", cuatrimestre: "1er cuatrimestre", categoria: "sistemas", icon: "fa-chart-pie" },
+        { nombre: "Asig. Electiva Diseño Multimedial", anio: "Año 5", cuatrimestre: "1er cuatrimestre", categoria: "taller", icon: "fa-puzzle-piece" },
+        { nombre: "Comunicación del Proyecto", anio: "Año 5", cuatrimestre: "2do cuatrimestre", categoria: "sistemas", icon: "fa-bullhorn" },
+        { nombre: "Proyecto Final de Diseño Multimedial", anio: "Año 5", cuatrimestre: "2do cuatrimestre", categoria: "taller", icon: "fa-flag-checkered" },
+        { nombre: "Legislación y Práctica Profesional", anio: "Año 5", cuatrimestre: "2do cuatrimestre", categoria: "sistemas", icon: "fa-scale-balanced" },
+        { nombre: "Asig. Electiva Diseño Multimedial", anio: "Año 5", cuatrimestre: "2do cuatrimestre", categoria: "taller", icon: "fa-puzzle-piece" }
+    ];
+
+    // --- 3A. LÓGICA: BUSCADOR GLOBAL (buscar.php) ---
+    const gridGlobal = document.getElementById('materiasGridGlobal');
+    if (gridGlobal) {
+        const searchInput = document.getElementById('searchInput');
+        const yearSelG = document.getElementById('yearSelectorGlobal');
+        const termSelG = document.getElementById('termSelectorGlobal');
+        const catSel = document.getElementById('categorySelector');
+
+        function renderGlobal() {
+            gridGlobal.innerHTML = '';
+            const txt = searchInput.value.toLowerCase();
+            const y = yearSelG.value;
+            const t = termSelG.value;
+            const c = catSel.value;
+
+            const filtradas = materiasDB.filter(m => {
+                return (m.nombre.toLowerCase().includes(txt)) &&
+                       (y === "todos" || m.anio === y) &&
+                       (t === "todos" || m.cuatrimestre === t) &&
+                       (c === "todas" || m.categoria === c);
+            });
+
+            if (filtradas.length === 0) {
+                gridGlobal.innerHTML = '<p style="grid-column: span 4; text-align: center; color: var(--text-muted); font-size: 0.85rem;">No se encontraron materias globales.</p>';
+                return;
+            }
+
+            filtradas.forEach(m => {
+                gridGlobal.innerHTML += `
+                    <article class="subject-card" onclick="abrirMateriaGlobal('${m.nombre}')">
+                        <div class="subject-icon-box"><i class="fa-solid ${m.icon}"></i></div>
+                        <div class="subject-info">
+                            <h4 title="${m.nombre}">${m.nombre}</h4>
+                            <p>${m.anio} • ${m.categoria.charAt(0).toUpperCase() + m.categoria.slice(1)}</p>
+                        </div>
+                    </article>`;
+            });
+        }
+
+        searchInput.addEventListener('input', renderGlobal);
+        yearSelG.addEventListener('change', renderGlobal);
+        termSelG.addEventListener('change', renderGlobal);
+        catSel.addEventListener('change', renderGlobal);
+        renderGlobal();
+    }
+
+    // --- 3B. LÓGICA: MIS MATERIAS (perfil.php) ---
+    const gridPerfil = document.getElementById('materiasGrid');
+    if (gridPerfil) {
+        const yearSelP = document.getElementById('yearSelector');
+        const termSelP = document.getElementById('termSelector');
+
+        function renderPerfil() {
+            gridPerfil.innerHTML = '';
+            const y = yearSelP.value;
+            const t = termSelP.value;
+
+            const filtradas = materiasDB.filter(m => {
+                return (y === "todos" || m.anio === y) &&
+                       (t === "todos" || m.cuatrimestre === t);
+            });
+
+            if (filtradas.length === 0) {
+                gridPerfil.innerHTML = '<p style="grid-column: span 4; text-align: center; color: var(--text-muted); font-size: 0.85rem;">No tenés materias en este filtro.</p>';
+                return;
+            }
+
+            filtradas.forEach(m => {
+                gridPerfil.innerHTML += `
+                    <article class="subject-card" onclick="abrirMateriaPerfil('${m.nombre}')">
+                        <div class="subject-icon-box"><i class="fa-solid ${m.icon}"></i></div>
+                        <div class="subject-info">
+                            <h4 title="${m.nombre}">${m.nombre}</h4>
+                            <p>${m.anio} • ${m.cuatrimestre}</p>
+                        </div>
+                    </article>`;
+            });
+        }
+
+        yearSelP.addEventListener('change', renderPerfil);
+        termSelP.addEventListener('change', renderPerfil);
+        renderPerfil();
+    }
+
+    // --- 4. Subida Visual de Fotos y Menús ---
+    const profileMenuBtn = document.getElementById('profileMenuBtn');
+    const profileDropdown = document.getElementById('profileDropdown');
+    if (profileMenuBtn && profileDropdown) {
+        profileMenuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            profileDropdown.classList.toggle('show');
+        });
+        document.addEventListener('click', (e) => {
+            if (!profileDropdown.contains(e.target) && e.target !== profileMenuBtn) profileDropdown.classList.remove('show');
+        });
+    }
+
     const fileInputs = document.querySelectorAll('.file-upload-input');
-    
     fileInputs.forEach(input => {
         input.addEventListener('change', function() {
-            // Verifica si el usuario seleccionó un archivo
             if(this.files && this.files.length > 0) {
-                const fileName = this.files[0].name;
-                // Busca el párrafo hermano para cambiar el texto
                 const textElement = this.parentElement.querySelector('p');
-                textElement.innerHTML = `Listo para subir:<br><small>${fileName}</small>`;
-                
-                // Cambia el ícono para dar feedback visual
+                textElement.innerHTML = `Listo para subir:<br><small>${this.files[0].name}</small>`;
                 const iconElement = this.parentElement.querySelector('i');
                 iconElement.classList.replace('fa-cloud-arrow-up', 'fa-file-circle-check');
                 iconElement.style.color = 'var(--blue-top)';
             }
         });
     });
-
 });
 
-document.addEventListener('DOMContentLoaded'), () => {
-    // ... AQUÍ ARRIBA SE MANTIENE TODO TU CÓDIGO ANTERIOR ...
+// --- FUNCIONES GLOBALES DE CAMBIO DE VISTA DENTRO DE LA MISMA PÁGINA ---
 
-    // ==========================================
-    // LÓGICA DE BÚSQUEDA Y MATERIAS (buscar.php)
-    // ==========================================
+// Para buscar.php
+function abrirMateriaGlobal(nombre) {
+    document.getElementById('vista-busqueda-global').style.display = 'none';
+    document.getElementById('vista-trabajos-global').style.display = 'block';
+    document.getElementById('tpTitleGlobal').textContent = `Trabajos: ${nombre}`;
     
-    const materiasGrid = document.getElementById('materiasGrid');
-    const searchInput = document.getElementById('searchInput');
-    const yearSelector = document.getElementById('yearSelector');
-    const termSelector = document.getElementById('termSelector');
-    const categorySelector = document.getElementById('categorySelector');
-
-    if (materiasGrid) {
-        
-        // Base de datos adaptada para estructurar Año, Cuatrimestre y Categoría
-        const materiasDB = [
-            { nombre: "Taller de Diseño I", anio: "Año 1", cuatrimestre: "1er cuatrimestre", categoria: "taller", icon: "fa-pen-nib" },
-            { nombre: "Tecnología I", anio: "Año 1", cuatrimestre: "1er cuatrimestre", categoria: "tecnología", icon: "fa-microchip" },
-            { nombre: "Sistemas de Representación I", anio: "Año 1", cuatrimestre: "1er cuatrimestre", categoria: "sistemas", icon: "fa-compass-drafting" },
-            
-            { nombre: "Taller de Diseño II", anio: "Año 1", cuatrimestre: "2do cuatrimestre", categoria: "taller", icon: "fa-pen-nib" },
-            { nombre: "Sistemas de Representación II", anio: "Año 1", cuatrimestre: "2do cuatrimestre", categoria: "sistemas", icon: "fa-desktop" },
-            
-            { nombre: "Tecnología Orientada I", anio: "Año 2", cuatrimestre: "1er cuatrimestre", categoria: "tecnología", icon: "fa-code" },
-            
-            { nombre: "Taller Multimedial I", anio: "Año 3", cuatrimestre: "1er cuatrimestre", categoria: "taller", icon: "fa-layer-group" },
-            
-            { nombre: "Taller Multimedial III", anio: "Año 4", cuatrimestre: "1er cuatrimestre", categoria: "taller", icon: "fa-layer-group" },
-            
-            { nombre: "Taller Multimedial IV", anio: "Año 4", cuatrimestre: "2do cuatrimestre", categoria: "taller", icon: "fa-layer-group" },
-            { nombre: "Tecnología Multimedial IV", anio: "Año 4", cuatrimestre: "2do cuatrimestre", categoria: "tecnología", icon: "fa-code" },
-            { nombre: "Sistemas de Información", anio: "Año 4", cuatrimestre: "2do cuatrimestre", categoria: "sistemas", icon: "fa-network-wired" },
-            
-            { nombre: "Proyecto Final de Diseño", anio: "Año 5", cuatrimestre: "2do cuatrimestre", categoria: "taller", icon: "fa-flag-checkered" }
-        ];
-
-        // Función que evalúa los 4 campos (Texto, Año, Cuatrimestre, Categoría)
-        function renderizarMaterias() {
-            materiasGrid.innerHTML = '';
-            
-            const textoVal = searchInput.value.toLowerCase();
-            const yearVal = yearSelector.value;
-            const termVal = termSelector.value;
-            const catVal = categorySelector.value;
-
-            const materiasFiltradas = materiasDB.filter(materia => {
-                const coincideTexto = materia.nombre.toLowerCase().includes(textoVal);
-                const coincideYear = (yearVal === "todos" || materia.anio === yearVal);
-                const coincideTerm = (termVal === "todos" || materia.cuatrimestre === termVal);
-                const coincideCat = (catVal === "todas" || materia.categoria === catVal);
-
-                return coincideTexto && coincideYear && coincideTerm && coincideCat;
-            });
-
-            if (materiasFiltradas.length === 0) {
-                materiasGrid.innerHTML = '<p style="grid-column: span 4; text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-top: 20px;">No se encontraron materias con estos filtros.</p>';
-                return;
-            }
-
-            materiasFiltradas.forEach(materia => {
-                const cardHTML = `
-                    <article class="subject-card">
-                        <div class="subject-icon-box">
-                            <i class="fa-solid ${materia.icon}"></i>
-                        </div>
-                        <div class="subject-info">
-                            <h4 title="${materia.nombre}">${materia.nombre}</h4>
-                            <p>${materia.anio} • ${materia.cuatrimestre}</p>
-                        </div>
-                    </article>
-                `;
-                materiasGrid.innerHTML += cardHTML;
-            });
-        }
-
-        // Agregar Eventos a cada filtro para que actualicen en tiempo real
-        if (searchInput) searchInput.addEventListener('input', renderizarMaterias);
-        if (yearSelector) yearSelector.addEventListener('change', renderizarMaterias);
-        if (termSelector) termSelector.addEventListener('change', renderizarMaterias);
-        if (categorySelector) categorySelector.addEventListener('change', renderizarMaterias);
-
-        // Renderizado inicial al entrar a la página
-        renderizarMaterias();
+    // Inyectar un trabajo de ejemplo en la vista global
+    const gridTrabajos = document.getElementById('trabajosComunidadGrid');
+    if(gridTrabajos) {
+        gridTrabajos.innerHTML = `
+            <article class="project-card">
+                <div class="project-cover" style="background-image: url('https://i.postimg.cc/N9cdyw6w/image.jpg'); background-size: cover; background-position: center;"></div>
+                <div class="project-data">
+                    <h4>Entrega Final - ${nombre}</h4>
+                    <p>Por Gonzalo Uthurry</p>
+                </div>
+            </article>`;
     }
+    window.scrollTo(0,0);
+}
+function cerrarMateriaGlobal() {
+    document.getElementById('vista-trabajos-global').style.display = 'none';
+    document.getElementById('vista-busqueda-global').style.display = 'block';
+}
+
+// Para perfil.php
+function abrirMateriaPerfil(nombre) {
+    document.getElementById('vista-perfil-principal').style.display = 'none';
+    document.getElementById('vista-trabajos').style.display = 'block';
+    document.getElementById('tpTitle').textContent = `Subir TP: ${nombre}`;
+    window.scrollTo(0,0);
+}
+function cerrarMateriaPerfil() {
+    document.getElementById('vista-trabajos').style.display = 'none';
+    document.getElementById('vista-perfil-principal').style.display = 'block';
 }
