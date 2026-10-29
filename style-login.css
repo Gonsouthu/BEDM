@@ -7,6 +7,7 @@
     --text-muted: #6C757D;
     --bg-input: #F8FAFC;
     --error-red: #DC3545;
+    --gutter: 16px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Roboto Mono', monospace; }
@@ -27,22 +28,22 @@ body {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-.login-header { text-align: center; margin-bottom: 30px; }
+.login-header { text-align: center; margin-bottom: 32px; }
 .login-header h1 { font-size: 2.5rem; color: var(--blue-top); font-weight: 700; letter-spacing: 2px; margin-bottom: 8px; }
 .login-header p { color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; }
 
 .error-message {
     background-color: #FFF5F5; color: var(--error-red); border: 1px solid #F5C2C7;
     padding: 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 700;
-    text-align: center; margin-bottom: 20px; display: none;
+    text-align: center; margin-bottom: var(--gutter); display: none;
 }
 .error-message.show { display: block; animation: shake 0.4s; }
 @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 
-.form-row { display: flex; gap: 12px; }
+.form-row { display: flex; gap: var(--gutter); }
 .form-row .input-group { width: 100%; }
 
-.input-group { margin-bottom: 20px; }
+.input-group { margin-bottom: var(--gutter); }
 .input-group label { display: block; font-size: 0.8rem; font-weight: 700; color: var(--text-main); margin-bottom: 8px; }
 .input-wrapper { position: relative; }
 .input-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #94A3B8; font-size: 0.9rem; }
@@ -54,7 +55,7 @@ body {
 }
 .input-wrapper input:focus { border-color: var(--blue-top); background-color: var(--bg-white); }
 
-.forgot-password { text-align: right; margin-bottom: 25px; }
+.forgot-password { text-align: right; margin-bottom: 24px; }
 .forgot-password a { font-size: 0.75rem; color: var(--blue-top); text-decoration: none; font-weight: 700; }
 .forgot-password a:hover { text-decoration: underline; }
 
@@ -65,8 +66,8 @@ body {
 .login-btn:hover { background-color: var(--blue-bottom); }
 
 .login-footer {
-    text-align: center; margin-top: 25px; font-size: 0.8rem; color: var(--text-muted);
-    border-top: 1px solid var(--card-border); padding-top: 25px;
+    text-align: center; margin-top: 24px; font-size: 0.8rem; color: var(--text-muted);
+    border-top: 1px solid var(--card-border); padding-top: 24px;
 }
 .login-footer a { color: var(--blue-top); font-weight: 700; text-decoration: none; }
 .login-footer a:hover { text-decoration: underline; }

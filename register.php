@@ -23,9 +23,9 @@ session_start();
             </div>
 
             <form id="registerForm">
-                <!-- Mensaje de error oculto por defecto -->
+                <!-- Error: el texto ahora tiene id para poder cambiarlo -->
                 <div id="errorMessage" class="error-message">
-                    <i class="fa-solid fa-circle-exclamation"></i> Las contraseñas no coinciden.
+                    <i class="fa-solid fa-circle-exclamation"></i> <span id="errorText">Las contraseñas no coinciden.</span>
                 </div>
 
                 <div class="form-row">
@@ -33,15 +33,24 @@ session_start();
                         <label for="nombre">Nombre</label>
                         <div class="input-wrapper">
                             <i class="fa-regular fa-user input-icon"></i>
-                            <input type="text" id="nombre" required>
+                            <input type="text" id="nombre" name="nombre" required>
                         </div>
                     </div>
                     <div class="input-group">
                         <label for="apellido">Apellido</label>
                         <div class="input-wrapper">
                             <i class="fa-regular fa-address-card input-icon"></i>
-                            <input type="text" id="apellido" required>
+                            <input type="text" id="apellido" name="apellido" required>
                         </div>
+                    </div>
+                </div>
+
+                <!-- NUEVO: nickname -->
+                <div class="input-group">
+                    <label for="nickname">Nickname</label>
+                    <div class="input-wrapper">
+                        <i class="fa-solid fa-at input-icon"></i>
+                        <input type="text" id="nickname" name="nickname" maxlength="20" placeholder="tu.nickname" required>
                     </div>
                 </div>
 
@@ -49,7 +58,7 @@ session_start();
                     <label for="email">Correo electrónico</label>
                     <div class="input-wrapper">
                         <i class="fa-regular fa-envelope input-icon"></i>
-                        <input type="email" id="email" placeholder="Alumno@gmail.com" required>
+                        <input type="email" id="email" name="email" placeholder="Alumno@gmail.com" required>
                     </div>
                 </div>
 
@@ -57,15 +66,15 @@ session_start();
                     <label for="password">Contraseña</label>
                     <div class="input-wrapper">
                         <i class="fa-solid fa-lock input-icon"></i>
-                        <input type="password" id="password" placeholder="••••••••" required>
+                        <input type="password" id="password" name="password" placeholder="••••••••" required>
                     </div>
                 </div>
 
-                <div class="input-group" style="margin-bottom: 25px;">
+                <div class="input-group" style="margin-bottom: 24px;">
                     <label for="confirmPassword">Confirmar Contraseña</label>
                     <div class="input-wrapper">
                         <i class="fa-solid fa-lock input-icon"></i>
-                        <input type="password" id="confirmPassword" placeholder="••••••••" required>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="••••••••" required>
                     </div>
                 </div>
 

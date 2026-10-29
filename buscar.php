@@ -19,18 +19,24 @@ session_start();
     <div id="vista-busqueda-global">
         <main class="main-content">
             <div class="grid-container">
-                
-                <!-- Caja Principal de Búsqueda -->
-                <div class="search-bar-rounded" style="grid-column: span 4;">
-                    
-                    <!-- Buscador de texto -->
+
+                <div class="search-bar-rounded col-4">
+
+                    <!-- Texto libre. Si empieza con "@" busca usuarios por nickname -->
                     <div class="search-input-wrapper">
                         <i class="fa-solid fa-magnifying-glass search-icon"></i>
-                        <input type="text" id="searchInput" class="search-input" placeholder="Buscar materia o archivo...">
+                        <input type="text" id="searchInput" class="search-input" placeholder="Materia, archivo o @usuario..." autocomplete="off">
                     </div>
 
-                    <!-- Filtros (Año, Cuatrimestre, Categoría) -->
+                    <!-- Filtros: 4 selects, cada uno ocupa 2 de las 4 columnas -->
                     <div class="filters-grid">
+                        <!-- NUEVO: ciclo lectivo (las opciones las genera el JS desde 2023 hasta el año actual) -->
+                        <div class="custom-select-wrapper select-white-blue">
+                            <select class="custom-select" id="cycleSelectorGlobal">
+                                <option value="todos" selected>Todos los ciclos</option>
+                            </select>
+                        </div>
+
                         <div class="custom-select-wrapper select-white-blue">
                             <select class="custom-select" id="yearSelectorGlobal">
                                 <option value="todos" selected>Todos los años</option>
@@ -50,8 +56,7 @@ session_start();
                             </select>
                         </div>
 
-                        <!-- El tercer filtro abarca las dos columnas -->
-                        <div class="custom-select-wrapper select-white-blue full-width">
+                        <div class="custom-select-wrapper select-white-blue">
                             <select class="custom-select" id="categorySelector">
                                 <option value="todas" selected>Todas las categorías</option>
                                 <option value="taller">Taller</option>
@@ -62,37 +67,28 @@ session_start();
                     </div>
                 </div>
 
-                <!-- Grilla de Resultados -->
-                <div class="grid-container" id="materiasGridGlobal" style="grid-column: span 4; padding: 0;"></div>
+                <!-- Resultados (materias o usuarios) -->
+                <div class="grid-container grid-flush col-4" id="materiasGridGlobal"></div>
 
             </div>
         </main>
     </div>
 
-    <!-- SECCIÓN 2: VER TRABAJOS DE LA COMUNIDAD -->
+    <!-- SECCIÓN 2: TRABAJOS DE LA MATERIA -->
     <div id="vista-trabajos-global" style="display: none;">
         <main class="main-content">
             <button class="back-btn" onclick="cerrarMateriaGlobal()"><i class="fa-solid fa-arrow-left"></i> Volver a búsqueda</button>
             <div class="section-title">
                 <h3 id="tpTitleGlobal">Trabajos de la materia</h3>
             </div>
-            <div class="grid-container" id="trabajosComunidadGrid">
-                <!-- Se inyectan trabajos globales de ejemplo -->
-            </div>
+            <div class="grid-container" id="trabajosComunidadGrid"></div>
         </main>
     </div>
 
-    <!-- Barra de navegación inferior (Activo: Buscar) -->
     <nav class="bottom-nav" id="bottomNav">
-        <a href="index.php" class="nav-item" aria-label="Inicio">
-            <i class="fas fa-home"></i>
-        </a>
-        <a href="buscar.php" class="nav-item active" aria-label="Buscar">
-            <i class="fas fa-search"></i>
-        </a>
-        <a href="perfil.php" class="nav-item" aria-label="Usuario">
-            <i class="fas fa-user"></i>
-        </a>
+        <a href="index.php" class="nav-item" aria-label="Inicio"><i class="fas fa-home"></i></a>
+        <a href="buscar.php" class="nav-item active" aria-label="Buscar"><i class="fas fa-search"></i></a>
+        <a href="perfil.php" class="nav-item" aria-label="Usuario"><i class="fas fa-user"></i></a>
     </nav>
 
     <script src="script.js"></script>
